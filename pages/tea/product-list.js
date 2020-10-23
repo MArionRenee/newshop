@@ -1,8 +1,8 @@
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core';
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core';
 
 const intro = css`
   display: flex;
@@ -17,11 +17,9 @@ const product = css`
   cursor: pointer;
 
   &:hover {
-     {
-      -moz-box-shadow: 0 0 20px #666666;
-      -webkit-box-shadow: 0 0 20px #666666;
-      box-shadow: 0 0 20px #666666;
-    }
+    -moz-box-shadow: 0 0 20px #666666;
+    -webkit-box-shadow: 0 0 20px #666666;
+    box-shadow: 0 0 20px #666666;
   }
 `;
 
@@ -32,22 +30,24 @@ const gallery = css`
   flex-wrap: wrap;
 `;
 
-export default function ShoppingCart () {
+export default function TeaList(props) {
   return (
     <div>
       <Layout>
         <Head>
-          <title>All products</title>
+          <title>TeaoLvers Teas</title>
         </Head>
 
         <h1 css={intro}>Our teas</h1>
 
         <ul css={gallery}>
-          {tea.map((tea) => {
+          {props.teas.map((tea) => {
             return (
               <li key={tea.id}>
                 <Link href={`/tea/${tea.id}`}>
-                  <img css={product} src={`${tea.image}`} alt="tea"></img>
+                  <a>
+                    <img css={product} src={`${tea.image}`} alt="tea"></img>
+                  </a>
                 </Link>
               </li>
             );
@@ -56,4 +56,20 @@ export default function ShoppingCart () {
       </Layout>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  console.log(context);
+  const { getTeas } = await import('../../util/database');
+
+  const teas = await getTeas();
+  console.log(teas);
+  // const allCookies = nextCookies(context);
+  // const following = allCookies.following || [];
+  return {
+    props: {
+      // followingFromCookie: following,
+      teas,
+    },
+  };
 }

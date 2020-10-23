@@ -10,10 +10,10 @@ const sql = postgres();
 //
 // const sql = postgres('postgres://username:password@localhost:5432/database')
 
-const users = await sql`
-  SELECT * from products;
+const teas = await sql`
+  SELECT * from teas;
 `;
 
-console.log(products);
+console.log(teas);
 
-process.exit(0);
+sql.end();

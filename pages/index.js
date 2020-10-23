@@ -1,9 +1,7 @@
 import Head from 'next/head';
-import Link from 'next/link';
-// import Image from 'next/image';
 import Layout from '../components/Layout';
-/** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import nextCookies from 'next-cookies';
 
 const headpic = css`
 display: flex;
@@ -22,20 +20,19 @@ const intro = css`
 
 const gallery = css`
   display: flex;
-  justify-content: center;
   justify-content: space-evenly;
 `;
 
 const galleryItem = css`
-  width: 340px;
-  height: 500px;
+  width: 240px;
+  height: 400px;
   border-radius: 8px;
 `;
 
-export default function Home() {
+export default function Home(props) {
   return (
     <div>
-      <Layout>
+      <Layout numberofItems={props.numberofItems}>
         <Head>
           <title>TeaLovers</title>
         </Head>
@@ -71,4 +68,14 @@ export default function Home() {
       </Layout>
     </div>
   );
+}
+export async function getServerSideProps(context) {
+  const allCookies = nextCookies(context);
+  const numberofItems = allCookies.numberofItems || '0';
+
+  return {
+    props: {
+      numberofItems,
+    },
+  };
 }

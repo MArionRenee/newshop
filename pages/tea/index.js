@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
-/** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 
 export default function Tea() {

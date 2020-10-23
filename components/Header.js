@@ -40,8 +40,8 @@ export default function Header() {
         <a css={a}>
           <img
             css={icon}
-            src="/icons8-einkaufstasche-100.png"
-            alt="shopping bag"
+            src="/shopping-teabag.png"
+            alt="shopping teabag"
           ></img>
         </a>
       </Link>
