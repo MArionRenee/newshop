@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import { jsx, css } from '@emotion/core';
 import Cookies from 'js-cookie';
+import React from 'react';
 
 const image = css`
   height: 350px;

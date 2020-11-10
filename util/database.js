@@ -1,5 +1,6 @@
 import postgres from 'postgres';
 import dotenv from 'dotenv';
+import React from 'react';
 
 // import camelcaseKeys from 'camelcase-keys';
 // import { User } from './types';
@@ -25,15 +26,15 @@ export async function getTeas() {
   // });
 }
 
-export async function getTeasById(id) {
+export async function getTeaById(id) {
   // Return undefined if the id is not
   // in the correct format
   if (!/^\d+$/.test(id)) return undefined;
 
-  const teas = await sql`
+  const tea = await sql`
     SELECT * FROM teas WHERE id = ${id};
   `;
-  return teas;
+  return tea;
   // return teas.map((u) => camelcaseKeys(u))[0];
 }
 

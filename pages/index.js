@@ -4,10 +4,9 @@ import { jsx, css } from '@emotion/core';
 import nextCookies from 'next-cookies';
 
 const headpic = css`
-display: flex;
-justify-content: center;
-border-radius: 8px;
-  
+  display: flex;
+  justify-content: center;
+  border-radius: 8px;
 `;
 const intro = css`
   display: flex;
@@ -17,15 +16,14 @@ const intro = css`
   margin-top: 40px;
 `;
 
-
 const gallery = css`
   display: flex;
   justify-content: space-evenly;
 `;
 
 const galleryItem = css`
-  width: 240px;
-  height: 400px;
+  width: 200px;
+  height: 3000px;
   border-radius: 8px;
 `;
 
@@ -37,13 +35,11 @@ export default function Home(props) {
           <title>TeaLovers</title>
         </Head>
         <main>
-        
-        
-
-<img css={headpic} src="/images/breitesmainpic.jpg" alt="girl drinks a cup of tea"/>
-
-
-
+          <img
+            css={headpic}
+            src="/images/breitesmainpic.jpg"
+            alt="girl drinks a cup of tea"
+          />
 
           <h1 css={intro}>Get your TeaLiciousMoment here!</h1>
 

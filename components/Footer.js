@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 import Link from 'next/link';
+import React from 'react';
 
 const footer = css`
   display: flex;

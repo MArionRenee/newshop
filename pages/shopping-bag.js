@@ -1,17 +1,30 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import nextCookies from 'next-cookies';
 import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 // import { teas } from 'util/database';
+import React from 'react';
+
+// import Head from 'next/head';
+// import Link from 'next/link';
+// import Layout from '../components/Layout';
+// /** @jsx jsx */
+// import { jsx, css } from '@emotion/core';
+// import nextCookies from 'next-cookies';
+// import { useState, useEffect } from 'react';
+// import Cookies from 'js-cookie';
+// import { finalBag } from '../util/final-bag';
+// import { total } from '../util/total-sum';
+// import { GetServerSidePropsContext } from 'next';
+// import { Reload } from '../util/reload';
 
 const white = css`
   background-color: #ffffff !important;
 `;
 
-const title = css`
-  display: flex;
-  justify-content: center;
+const titleshop = css`
   margin-bottom: 50px;
 `;
 
@@ -33,7 +46,7 @@ const tinyImg = css`
   height: 60px;
 `;
 
-export default function CheckOut() {
+export default function CheckOut(props) {
   return (
     <div>
       <Layout>
@@ -51,7 +64,7 @@ export default function CheckOut() {
               <tbody>
                 <tr>
                   <td css={white} colspan="5">
-                    <h1 css={title}>Your Shopping Bag</h1>
+                    <h1 css={titleshop}>Your Shopping Bag</h1>
                   </td>
                 </tr>
                 <tr>
@@ -61,7 +74,7 @@ export default function CheckOut() {
                   <th>Prize</th>
                   <th></th>
                 </tr>
-                {tea.map((tea) => (
+                {/* {tea.map((tea) => (
                   <tr key={tea.id}>
                     <td>
                       <img css={tinyImg} src={`${tea.image}`} alt="tea"></img>
@@ -71,12 +84,12 @@ export default function CheckOut() {
                     <td>{tea.price} €</td>
                     <td></td>
                   </tr>
-                ))}
+                ))} */}
                 <tr>
                   <td>Total:</td>
+                  <td>{props.shoppingBag.name}</td>
                   <td></td>
-                  <td></td>
-                  <td>1000 €</td>
+                  <td>{props.tea.price}€</td>
                   <td>
                     <Link href={`/check-out`}>
                       <button>Pay now</button>
@@ -90,4 +103,21 @@ export default function CheckOut() {
       </Layout>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  //comes from next-cookie
+  const allCookies = nextCookies(context);
+  const shoppingBag = allCookies.shoppingBag || [];
+  const numberofItems = allCookies.numberofItems || 0;
+  // dynamic import, imports all shoes from databse
+  const { getTeas } = await import('../util/database');
+  const tea = await getTeas();
+  return {
+    props: {
+      shoppingBag,
+      numberofItems,
+      tea,
+    },
+  };
 }

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
+import React from 'react';
 
 const container = css`
   text-align: left;

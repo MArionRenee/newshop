@@ -3,6 +3,7 @@ import { jsx, css } from '@emotion/core';
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
+import React from 'react';
 
 const intro = css`
   display: flex;

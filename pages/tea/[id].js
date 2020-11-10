@@ -1,15 +1,16 @@
 import Layout from '../../components/Layout';
+import React from 'react';
 // import { teas } from '../../util/database';
 import Head from 'next/head';
 import { jsx, css } from '@emotion/core';
 import { useState, useEffect } from 'react';
-// import Cookies from 'js-cookie';
-// import nextCookies from 'next-cookies';
+import Cookies from 'js-cookie';
+import nextCookies from 'next-cookies';
 // import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 
 const img = css`
-  width: 700px;
+  width: 200px;
   margin-left: 30px;
   border-radius: 20%;
 `;
@@ -38,24 +39,26 @@ const name = css`
 `;
 
 export default function Tea(props) {
-  const router = useRouter();
-  const [shoppingBag, setShoppingBag] = useState();
+  // const router = useRouter();
 
-  const [numberofItems, setNumberofItems] = useState();
+  const [shoppingBag, setShoppingBag] = useState(props.shoppingBag || []);
+  console.log(shoppingBag);
+
+  const [numberofItems, setNumberofItems] = useState(props.numberofItems);
 
   const [total, setTotal] = useState();
 
-  // useEffect(() => {
-  //   Cookies.set('shoppingBag', shoppingBag);
-  // }, [shoppingBag]);
+  useEffect(() => {
+    Cookies.set('shoppingBag', shoppingBag);
+  }, [shoppingBag]);
 
-  // useEffect(() => {
-  //   Cookies.set('numberofItems', numberofItems);
-  // }, [numberofItems]);
+  useEffect(() => {
+    Cookies.set('numberofItems', numberofItems);
+  }, [numberofItems]);
 
-  // useEffect(() => {
-  //   Cookies.set('total', total);
-  // }, [total]);
+  useEffect(() => {
+    Cookies.set('total', total);
+  }, [total]);
 
   // const handleAddtoBag = (name, image, price) => {
   //   const newShoppingBag = shoppingBag.concat({ name, image, price });
@@ -68,6 +71,14 @@ export default function Tea(props) {
   //   setTotal(newTotal);
   // };
 
+  const handleAddtoBag = (id) => {
+    console.log(id);
+    const newShoppingBag = [...shoppingBag, id];
+    setShoppingBag(newShoppingBag);
+    //set number of Items in the shopping bag
+    setNumberofItems(newShoppingBag.length);
+  };
+
   // const teas = teas.find((currentTea) => {
   //   const tea = props.teas.find((currentTea) => {
   //     if (currentTea.id === props.id) {
@@ -79,37 +90,43 @@ export default function Tea(props) {
 
   return (
     <Layout>
-      <Head>
-        <title>{props.name}</title>
-      </Head>
+      {/* <Head>
+        <title>{props.teas.name}</title>
+      </Head> */}
+      <>
+        <div css={teaInfo}>
+          <img css={img} src={props.tea[0].image} alt={props.tea[0].name} />
 
-      <div css={teaInfo}>
-        <img css={img} src={props.image} alt={props.name} />
-
-        <ul css={ul}>
-          <li css={name}>{props.name}</li>
-          <p>
-            <li css={description}>{props.description}</li>
-          </p>
-          <li css={info2}>Price: {props.price}€</li>
-          <br />
-          <button>Get my Tealicious Moment</button>
-        </ul>
-      </div>
+          <ul css={ul}>
+            <li css={name}>{props.tea[0].name}</li>
+            <p>
+              <li css={description}>{props.tea[0].description}</li>
+            </p>
+            <li css={info2}>Price: {props.tea[0].price}€</li>
+            <br />
+            <button onClick={(tea) => handleAddtoBag(props.tea[0].id)}>
+              Get my Tealicious Moment
+            </button>
+          </ul>
+        </div>
+      </>
     </Layout>
   );
 }
 
 export async function getServerSideProps(context) {
-  const id = context.query.id;
-  // console.log(context);
-  const { getTeasById } = await import('../../util/database');
+  console.log(context);
+  const allCookies = nextCookies(context);
+  const numberofItems = allCookies.numberofItems || 0;
+  const shoppingBag = allCookies.shoppingBag || [];
 
-  const tea = await getTeasById(id);
-  // console.log(props);
-  const props = {};
-  if (tea) props.tea = tea;
+  const { getTeaById } = await import('../../util/database');
+  const id = parseInt(context.query.id);
+  const tea = await getTeaById(id);
+
+  const { getTeas } = await import('../../util/database');
+  const teas = await getTeas();
   return {
-    props: props,
+    props: { tea },
   };
 }
