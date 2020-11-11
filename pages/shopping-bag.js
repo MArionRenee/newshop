@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/core';
 // import { teas } from 'util/database';
-import React from 'react';
+import React, { useState } from 'react';
 
 // import Head from 'next/head';
 // import Link from 'next/link';
@@ -47,6 +47,9 @@ const tinyImg = css`
 `;
 
 export default function CheckOut(props) {
+  const [shoppingBag, setShoppingBag] = useState(props.shoppingBag || []);
+  console.log(shoppingBag);
+
   return (
     <div>
       <Layout>
@@ -87,9 +90,8 @@ export default function CheckOut(props) {
                 ))} */}
                 <tr>
                   <td>Total:</td>
-                  <td>{props.shoppingBag.name}</td>
+                  <td>{props.teas.name}</td>
                   <td></td>
-                  <td>{props.tea.price}€</td>
                   <td>
                     <Link href={`/check-out`}>
                       <button>Pay now</button>
